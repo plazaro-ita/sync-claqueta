@@ -7,7 +7,7 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent / 'src'))
 
 from claqueta.finder import find_clap_frame_from_audio
-from claqueta.cutter import cut_video_from_frame
+from claqueta.cutter import cut_video_from_frame, cut_video_with_audio
 
 def main():
     """
@@ -29,6 +29,11 @@ def main():
         type=str,
         default="output",
         help="The directory to save the processed videos. Defaults to 'output'.",
+    )
+    parser.add_argument(
+        "--with-audio",
+        action="store_true",
+        help="Include audio in the cut video.",
     )
     args = parser.parse_args()
 
@@ -57,7 +62,10 @@ def main():
         output_path = os.path.join(args.output_dir, output_filename)
         
         print(f"  - Cutting video and saving to {output_path}")
-        cut_video_from_frame(video_path, output_path, clap_frame)
+        if args.with_audio:
+            cut_video_with_audio(video_path, output_path, clap_timestamp)
+        else:
+            cut_video_from_frame(video_path, output_path, clap_frame)
 
 if __name__ == "__main__":
     main()

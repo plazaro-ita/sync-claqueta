@@ -53,6 +53,7 @@ dependencies:
   - markupsafe
   - matplotlib-inline
   - mistune
+  - moviepy
   - nbclient
   - nbconvert-core
   - nbformat
