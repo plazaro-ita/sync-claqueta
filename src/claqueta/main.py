@@ -1,10 +1,6 @@
 import argparse
 import os
-import sys
 from pathlib import Path
-
-# Add src to the Python path
-sys.path.insert(0, str(Path(__file__).resolve().parent / 'src'))
 
 from claqueta.finder import find_clap_frame_from_audio
 from claqueta.cutter import cut_video_from_frame, cut_video_with_audio

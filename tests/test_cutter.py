@@ -3,11 +3,6 @@ import os
 import numpy as np
 from moviepy import VideoFileClip, AudioArrayClip, ColorClip
 
-# Add src to the Python path
-import sys
-from pathlib import Path
-sys.path.insert(0, str(Path(__file__).resolve().parent.parent / 'src'))
-
 from claqueta.cutter import cut_video_with_audio, cut_video_from_frame
 
 
@@ -28,7 +23,7 @@ class TestCutter(unittest.TestCase):
         frequency = 440  # Hz
         t = np.linspace(0, duration, int(sr * duration), False)
         audio_data = 0.5 * np.sin(2 * np.pi * frequency * t)
-        audio_clip = AudioArrayClip([audio_data, audio_data], fps=sr)
+        audio_clip = AudioArrayClip(np.vstack((audio_data, audio_data)).T, fps=sr)
 
         # Create a simple color video clip
         video_clip = ColorClip(size=(640, 480), color=(0, 255, 0), duration=duration)

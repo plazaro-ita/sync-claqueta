@@ -4,23 +4,34 @@ Claqueta Finder is a Python tool to automatically find the clap sound in a video
 
 ## Installation
 
-1.  Clone this repository to your local machine.
-2.  Install the required Python packages using pip:
+1. Clone this repository to your local machine.
+2. Ensure you have the required dependencies (you can use conda with the provided environment):
+   ```bash
+   conda env create -f claqueta.yaml
+   conda activate claqueta
+   ```
+3. Install the package in editable mode:
+   ```bash
+   pip install -e .
+   ```
 
-    ```bash
-    pip install -r requirements.txt
-    ```
+## Running Tests
+
+To verify that the implementation is working correctly, you can run the test suite:
+```bash
+python -m unittest discover tests/ -v
+```
 
 ## Usage
 
-The main script to use is `main.py`. It takes one or more video files as input and will generate cut versions of them in an output directory.
+Once installed, you can use the `claqueta` command globally from your terminal. It takes one or more video files as input and will generate cut versions of them in an output directory.
 
 ### Basic Example
 
 To process a single video file and save the output to the default `output/` directory:
 
 ```bash
-python main.py /path/to/your/video.mp4
+claqueta /path/to/your/video.mp4
 ```
 
 ### Specifying an Output Directory
@@ -28,7 +39,7 @@ python main.py /path/to/your/video.mp4
 To specify a different directory for the processed videos, use the `-o` or `--output-dir` flag:
 
 ```bash
-python main.py /path/to/your/video.mp4 -o /path/to/your/output_folder
+claqueta /path/to/your/video.mp4 -o /path/to/your/output_folder
 ```
 
 ### Processing Multiple Videos
@@ -36,7 +47,7 @@ python main.py /path/to/your/video.mp4 -o /path/to/your/output_folder
 You can process multiple videos at once by listing them as arguments:
 
 ```bash
-python main.py video1.mp4 video2.mov video3.mkv --output-dir cut_videos/
+claqueta video1.mp4 video2.mov video3.mkv --output-dir cut_videos/
 ```
 
 The script will create a new video file for each input file, with `_cut` appended to the original filename.
