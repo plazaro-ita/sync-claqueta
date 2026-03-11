@@ -3,7 +3,7 @@ import os
 from pathlib import Path
 
 from claqueta.finder import find_clap_frame_from_audio
-from claqueta.cutter import cut_video_from_frame, cut_video_with_audio
+from claqueta.cutter import cut_video_from_frame, cut_video_with_audio, cut_video_ffmpeg
 
 def main():
     """
@@ -30,6 +30,11 @@ def main():
         "--with-audio",
         action="store_true",
         help="Include audio in the cut video.",
+    )
+    parser.add_argument(
+        "--ffmpeg",
+        action="store_true",
+        help="Use ffmpeg to cut the video.",
     )
     args = parser.parse_args()
 
@@ -58,7 +63,9 @@ def main():
         output_path = os.path.join(args.output_dir, output_filename)
         
         print(f"  - Cutting video and saving to {output_path}")
-        if args.with_audio:
+        if args.ffmpeg:
+            cut_video_ffmpeg(video_path, output_path, clap_timestamp)
+        elif args.with_audio:
             cut_video_with_audio(video_path, output_path, clap_timestamp)
         else:
             cut_video_from_frame(video_path, output_path, clap_frame)

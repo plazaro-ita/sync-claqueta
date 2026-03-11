@@ -1,6 +1,30 @@
 import cv2
 import os
 from moviepy import VideoFileClip
+import subprocess
+
+def cut_video_ffmpeg(video_path: str, output_path: str, start_time: float):
+    """
+    Cuts a video from start_time using FFmpeg stream copy (no re-encoding).
+    Preserves original codec, quality, and audio.
+    """
+    os.makedirs(os.path.dirname(output_path), exist_ok=True)
+
+    cmd = [
+        "ffmpeg",
+        "-ss", str(start_time),   # seek to clap timestamp
+        "-i", video_path,
+        "-c", "copy",             # no re-encoding, preserves H.265 or H.264
+        "-avoid_negative_ts", "make_zero",
+        "-y",
+        output_path
+    ]
+    result = subprocess.run(cmd, capture_output=True, text=True)
+
+    if result.returncode == 0:
+        print(f"Successfully cut video and saved to {output_path}")
+    else:
+        print(f"Error cutting video: {result.stderr}")
 
 def cut_video_with_audio(video_path: str, output_path: str, start_time: float):
     """
