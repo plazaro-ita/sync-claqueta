@@ -1,6 +1,7 @@
 import cv2
 import numpy as np
 import librosa
+import scipy.signal
 
 def find_clap_frame_from_audio(video_path: str) -> tuple[int, float]:
     """
@@ -25,8 +26,13 @@ def find_clap_frame_from_audio(video_path: str) -> tuple[int, float]:
         print(f"Error loading audio from {video_path}: {e}")
         return -1, -1.0
 
+    # Apply a high-pass filter to isolate high frequencies (e.g. clap) and ignore low frequencies (e.g. door slam)
+    # Cutoff frequency of 1000 Hz is usually good to isolate a clap.
+    sos = scipy.signal.butter(N=5, Wn=1000, btype='highpass', fs=sr, output='sos')
+    y_filt = scipy.signal.sosfiltfilt(sos, y)
+
     # Calculate the onset strength envelope
-    onset_env = librosa.onset.onset_strength(y=y, sr=sr)
+    onset_env = librosa.onset.onset_strength(y=y_filt, sr=sr)
 
     # Find the frame with the maximum onset strength
     clap_onset_frame = np.argmax(onset_env)
