@@ -17,7 +17,7 @@ def cut_video_with_audio(video_path: str, output_path: str, start_time: float):
         os.makedirs(os.path.dirname(output_path), exist_ok=True)
 
         with VideoFileClip(video_path) as video:
-            sub_clip = video.subclip(start_time)
+            sub_clip = video.subclipped(start_time)
             sub_clip.write_videofile(output_path, codec="libx264", audio_codec="aac")
         
         print(f"Successfully cut video with audio and saved to {output_path}")
