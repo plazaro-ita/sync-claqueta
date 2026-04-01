@@ -21,7 +21,7 @@ def find_clap_frame_from_audio(video_path: str) -> tuple[int, float]:
     """
     try:
         # Solo cargar los primeros 2 minutos (120 segundos) para la búsqueda
-        y, sr = librosa.load(video_path, duration=120.0)
+        y, sr = librosa.load(video_path, duration=150.0)
     except Exception as e:
         print(f"Error loading audio from {video_path}: {e}")
         return -1, -1.0
